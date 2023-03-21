@@ -63,8 +63,7 @@ userSchema.method.genrateAuthToken= async function(){
 
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email })
-    console.log('email : ',email);
-console.log('user : ',user);
+
     if (!user) {
         throw new Error('unble to login')
     }
