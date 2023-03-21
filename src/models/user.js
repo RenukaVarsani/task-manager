@@ -49,9 +49,28 @@ const userSchema = new mongoose.Schema({
             required:true
         }
     }]
+}
+,{
+    timestamps:true
+}
+)
+
+
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
 })
 
+userSchema.methods.toJSON = function () {
+    const user = this
+    const userObject = user.toObject()
 
+    delete userObject.password
+    delete userObject.tokens
+
+    return userObject
+}
 
 userSchema.method.genrateAuthToken= async function(){
     const user = this 
@@ -65,24 +84,17 @@ userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email })
 
     if (!user) {
-        throw new Error('unble to login')
+        throw new Error('Unable to login')
     }
 
     const isMatch = await bcrypt.compare(password, user.password)
 
-    if (!isMatch) {
-        throw new Error('unble to login password')
-    }
+    if (!isMatch) 
+        throw new Error('Unable to login')
+    
 
-    return user
+    return user;    
 }
-
-
-
-
-
-
-
 
 
 //hash the plain text password

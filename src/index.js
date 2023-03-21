@@ -9,33 +9,30 @@ const taskRouter = require('./routers/task')
 const app = express()
 const port = 4000
 
-// app.use((req,res,next)=>{
-//    if(req.method==='GET'){
-// res.send('get is disable')
+ 
 
-//    }
-//    else{
-//     next()
-//    }
+// const multer = require('multer')
+// const upload = multer({
+//     dest:'images'
+// })
+
+// app.post('/upload',upload.single('upload'),(req,res)=>{
+//      res.send()
 // })
 
 
-// app.use((req,res,next)=>{
-   
-//  res.status(503).send('site is currently down')
- 
-//     }
-//     // else{
-//     //  next()
-//     // }
-//  )
- 
 
 
 
-app.use(bodyParser.json());
+
+
+
+
+app.use(bodyParser.json()); 
 app.use(userRouter)
 app.use(taskRouter)
+app.use(bodyParser.urlencoded({ extended: true })); 
+
 
 
 
@@ -44,28 +41,24 @@ app.listen(port, () => {
     console.log("server is up on port ");
 })
 
-const bcrypt = require('bcrypt')
+const Task = require('./models/task')
+const User = require('./models/user')
 
-const myfuction = async () => {
-
-    const password = '12r34'
-    const hashedPassword = await bcrypt.hash(password, 8)
-
-    console.log(password);
-    console.log(hashedPassword);
-
-    const isMatch = await bcrypt.compare(password, hashedPassword)
-    console.log(isMatch);
-}
 
 const jwt = require('jsonwebtoken')
 
-const myFuction = async()=>{
-    const token = jwt.sign({_id:'abc123'},'thisismynewcourse',{expiresIn:'7 days'})
-    console.log(token);
 
-  const data=  jwt.verify(token,'thisismynewcourse')
-console.log(data);
-}
+//     const token = jwt.sign({_id:'abc123'},'thisismynewcourse',{expiresIn:'7 days'})
+//     console.log(token);
 
-myFuction()
+//   const data=  jwt.verify(token,'thisismynewcourse')
+// console.log(data);
+
+
+// const main = async () => {
+//     const task = await Task.findById("6418149daa4aef80866878d9");
+//     console.log(task, task.owner);
+//     await task.populate("owner");
+//     console.log(task.owner);
+//   }; main();
+
